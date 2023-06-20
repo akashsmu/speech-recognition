@@ -7,7 +7,7 @@ const mimeType = "audio/webm";
 const assembly = axios.create({
   baseURL: "https://api.assemblyai.com/v2",
   headers: {
-    authorization: "ebed85631cc240218efda2f7dfad289f",
+    authorization: "b0f22624fabc4353aeb56a2ffe877654",
     "content-type": "application/json",
     "transfer-encoding": "chunked",
   },
