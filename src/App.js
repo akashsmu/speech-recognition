@@ -1,6 +1,8 @@
 import "./App.css";
 import { useState } from "react";
 import AudioRecorder from "../src/AudioRecorder";
+import UserData from "./UserData";
+import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   let [recordOption, setRecordOption] = useState("video");
@@ -13,12 +15,14 @@ const App = () => {
 
   return (
     <div>
-      <h1>Audio Recorder</h1>
       {/* <div className="button-flex">
         <button onClick={toggleRecordOption("audio")}>Record Audio</button>
       </div> */}
       <div>
-        <AudioRecorder />
+        <Routes>
+          <Route path="/audio" element={<AudioRecorder />} />
+          <Route path="/" element={<UserData />} />
+        </Routes>
       </div>
     </div>
   );

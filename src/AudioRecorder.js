@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import CustomizedDialogs from "./Dialog";
-
+import { useNavigate } from "react-router-dom";
 const mimeType = "audio/webm";
 const assembly = axios.create({
   baseURL: "https://api.assemblyai.com/v2",
@@ -26,6 +26,8 @@ const AudioRecorder = () => {
 
   const [audioChunks, setAudioChunks] = useState([]);
   const [audioFile, setAudioFile] = useState(null);
+
+  const navigate = useNavigate();
 
   const getMicrophonePermission = async () => {
     if ("MediaRecorder" in window) {
@@ -120,6 +122,9 @@ const AudioRecorder = () => {
     }
   };
 
+  const BackHandler = () => {
+    navigate(-1);
+  };
   console.log(transcriptData);
   console.log(transcriptID);
   console.log(transcript);
@@ -128,6 +133,7 @@ const AudioRecorder = () => {
     <div>
       {/* <h2>Audio Recorder</h2> */}
       <main>
+        <h1>Audio Recorder</h1>
         <div className="audio-controls">
           {!permission ? (
             <button onClick={getMicrophonePermission} type="button">
@@ -176,6 +182,13 @@ const AudioRecorder = () => {
             {transcriptData.status}
           </p>
         )}
+        <Button
+          variant="contained"
+          onClick={BackHandler}
+          style={{ margin: "5px" }}
+        >
+          Go Back
+        </Button>
       </main>
     </div>
   );
