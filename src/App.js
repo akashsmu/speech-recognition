@@ -3,6 +3,9 @@ import { useState } from "react";
 import AudioRecorder from "../src/AudioRecorder";
 import UserData from "./UserData";
 import { Route, Routes } from "react-router-dom";
+import Choice from "./Choice";
+import Contacts from "./Contacts";
+import AudioPlay from "./AudioUploader";
 
 const App = () => {
   let [recordOption, setRecordOption] = useState("video");
@@ -20,8 +23,11 @@ const App = () => {
       </div> */}
       <div>
         <Routes>
-          <Route path="/audio" element={<AudioRecorder />} />
-          <Route path="/" element={<UserData />} />
+          <Route exact path="/" element={<UserData />} />
+          <Route path="/choice" element={<Choice />} />
+          <Route path="/upload" element={<AudioPlay />} />
+          <Route path="/record" element={<AudioRecorder />} />
+          <Route path="/contact" element={<Contacts />} />
         </Routes>
       </div>
     </div>
