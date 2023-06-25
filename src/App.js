@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import AudioRecorder from "../src/AudioRecorder";
+import UserData from "./UserData";
+import { Route, Routes } from "react-router-dom";
+import Choice from "./Choice";
+import Contacts from "./Contacts";
+import AudioPlay from "./AudioUploader";
 
-function App() {
+const App = () => {
+  let [recordOption, setRecordOption] = useState("video");
+
+  const toggleRecordOption = (type) => {
+    return () => {
+      setRecordOption(type);
+    };
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* <div className="button-flex">
+        <button onClick={toggleRecordOption("audio")}>Record Audio</button>
+      </div> */}
+      <div>
+        <Routes>
+          <Route exact path="/" element={<UserData />} />
+          <Route path="/choice" element={<Choice />} />
+          <Route path="/upload" element={<AudioPlay />} />
+          <Route path="/record" element={<AudioRecorder />} />
+          <Route path="/contact" element={<Contacts />} />
+        </Routes>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
