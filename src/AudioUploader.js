@@ -39,9 +39,9 @@ const AudioPlay = () => {
 
   return (
     <div>
-      <button onClick={handleClick}>{buttonName}</button>
+      {/* <button onClick={handleClick}>{buttonName}</button>
       <input type="file" onChange={addFile} />
-      <audio src={audio} controls></audio>
+      <audio src={audio} controls></audio> */}
       <DragAndDrop />
     </div>
   );
