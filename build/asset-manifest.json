@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9fae4eab.css",
+    "main.js": "/static/js/main.f4c42b80.js",
+    "static/media/erol-ahmed-IHL-Jbawvvo-unsplash.jpg": "/static/media/erol-ahmed-IHL-Jbawvvo-unsplash.bb2017e932d1455ff433.jpg",
+    "index.html": "/index.html",
+    "main.9fae4eab.css.map": "/static/css/main.9fae4eab.css.map",
+    "main.f4c42b80.js.map": "/static/js/main.f4c42b80.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9fae4eab.css",
+    "static/js/main.f4c42b80.js"
+  ]
+}

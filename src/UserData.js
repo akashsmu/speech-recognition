@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import styled from "styled-components";
 import {
-  createMuiTheme,
+  createTheme,
   makeStyles,
   responsiveFontSizes,
   ThemeProvider,
@@ -17,8 +17,16 @@ import { Typography } from "@material-ui/core";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "./firebase";
 
-let theme = createMuiTheme();
+let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
 const useStyles = makeStyles((theme) => ({
@@ -53,22 +61,46 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserData() {
   const classes = useStyles();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [dateOfBirth, setDateOfBirth] = useState("");
   const [submit, setSubmit] = useState(false);
-  const [gender, setGender] = useState("None");
-  const [age, setAge] = useState("");
+  // const [gender, setGender] = useState("None");
+  // const [age, setAge] = useState("");
   //   const { width, height } = useWindowSize();
   //   const [password, setPassword] = useState("");
+  const [userDetails, setUserDetails] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    dob: "",
+    gender: "",
+  });
+
+  const handleChange = (event) => {
+    setUserDetails({
+      ...userDetails,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const navigate = useNavigate();
-  function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
-    //console.log(firstName, lastName, email, dateOfBirth);
-  }
+    // console.log(userDetails);
+    try {
+      const data = collection(db, "UserData");
+      const docRef = await addDoc(data, {
+        created: serverTimestamp(),
+        userDetails: userDetails,
+      });
+      // console.log("Document written with ID: ", docRef);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
   function nextPage(event) {
     event.preventDefault();
     navigate("/choice");
@@ -86,33 +118,36 @@ export default function UserData() {
       <form onSubmit={handleSubmit} action={<Link to="/" />}>
         <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
           <TextField
+            name="firstName"
             type="text"
             variant="outlined"
             color="secondary"
             label="First Name"
-            onChange={(e) => setFirstName(e.target.value)}
-            value={firstName}
+            onChange={handleChange}
+            value={userDetails.firstName}
             fullWidth
             required
           />
           <TextField
+            name="lastName"
             type="text"
             variant="outlined"
             color="secondary"
             label="Last Name"
-            onChange={(e) => setLastName(e.target.value)}
-            value={lastName}
+            onChange={handleChange}
+            value={userDetails.lastName}
             fullWidth
             required
           />
         </Stack>
         <TextField
+          name="email"
           type="email"
           variant="outlined"
           color="secondary"
           label="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
+          onChange={handleChange}
+          value={userDetails.email}
           fullWidth
           required
           sx={{ mb: 4 }}
@@ -133,8 +168,9 @@ export default function UserData() {
           variant="outlined"
           color="secondary"
           label="Date of Birth"
-          onChange={(e) => setDateOfBirth(e.target.value)}
-          value={dateOfBirth}
+          onChange={handleChange}
+          value={userDetails.dob}
+          name="dob"
           fullWidth
           required
           sx={{ mb: 4 }}
@@ -142,9 +178,10 @@ export default function UserData() {
         />
         <FormControl sx={{ m: 1 }} fullWidth>
           <Select
-            value={gender}
+            value={userDetails.gender}
             label="Gender"
-            onChange={(e) => setGender(e.target.value)}
+            name="gender"
+            onChange={handleChange}
           >
             <MenuItem value={"Male"}>Male</MenuItem>
             <MenuItem value={"Female"}>Female</MenuItem>
