@@ -25,6 +25,26 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
+import PropTypes from "prop-types";
+import Slider from "@mui/material/Slider";
+import Tooltip from "@mui/material/Tooltip";
+import Box from "@mui/material/Box";
+import CustomizedSlider from "./Slider";
+
+function ValueLabelComponent(props) {
+  const { children, value } = props;
+
+  return (
+    <Tooltip enterTouchDelay={0} placement="top" title={value}>
+      {children}
+    </Tooltip>
+  );
+}
+
+ValueLabelComponent.propTypes = {
+  children: PropTypes.element.isRequired,
+  value: PropTypes.number.isRequired,
+};
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -59,6 +79,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const PrettoSlider = styled(Slider)({
+  color: "#52af77",
+  height: 8,
+  "& .MuiSlider-track": {
+    border: "none",
+  },
+  "& .MuiSlider-thumb": {
+    height: 24,
+    width: 24,
+    backgroundColor: "#fff",
+    border: "2px solid currentColor",
+    "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
+      boxShadow: "inherit",
+    },
+    "&:before": {
+      display: "none",
+    },
+  },
+  "& .MuiSlider-valueLabel": {
+    lineHeight: 1.2,
+    fontSize: 12,
+    background: "unset",
+    padding: 0,
+    width: 32,
+    height: 32,
+    borderRadius: "50% 50% 50% 0",
+    backgroundColor: "#52af77",
+    transformOrigin: "bottom left",
+    transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
+    "&:before": { display: "none" },
+    "&.MuiSlider-valueLabelOpen": {
+      transform: "translate(50%, -100%) rotate(-45deg) scale(1)",
+    },
+    "& > *": {
+      transform: "rotate(45deg)",
+    },
+  },
+});
+
 export default function UserData() {
   const classes = useStyles();
   // const [firstName, setFirstName] = useState("");
@@ -74,7 +133,7 @@ export default function UserData() {
     firstName: "",
     lastName: "",
     email: "",
-    dob: "",
+    dob: 20,
     gender: "",
   });
 
@@ -89,7 +148,7 @@ export default function UserData() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
-    // console.log(userDetails);
+    console.log(userDetails);
     try {
       const data = collection(db, "UserData");
       const docRef = await addDoc(data, {
@@ -115,7 +174,7 @@ export default function UserData() {
       {/* <div style={{ margin: "15rem" }}> */}
       {submit && <Confetti width={1600} height={1000} />}
       {/* <h2>Register Form</h2> */}
-      <form onSubmit={handleSubmit} action={<Link to="/" />}>
+      <form onSubmit={handleSubmit} action={<Link to="/user" />}>
         <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
           <TextField
             name="firstName"
@@ -153,17 +212,6 @@ export default function UserData() {
           sx={{ mb: 4 }}
         />
         {/* <TextField
-          type="password"
-          variant="outlined"
-          color="secondary"
-          label="Password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          required
-          fullWidth
-          sx={{ mb: 4 }}
-        /> */}
-        <TextField
           type="date"
           variant="outlined"
           color="secondary"
@@ -175,29 +223,30 @@ export default function UserData() {
           required
           sx={{ mb: 4 }}
           InputLabelProps={{ shrink: true }}
+        /> */}
+        <Typography id="input-slider" gutterBottom>
+          Age
+        </Typography>
+        <PrettoSlider
+          valueLabelDisplay="auto"
+          aria-label="pretto slider"
+          defaultValue={userDetails.dob}
+          onChange={handleChange}
+          name="dob"
         />
         <FormControl sx={{ m: 1 }} fullWidth>
-          <Select
+          <TextField
             value={userDetails.gender}
             label="Gender"
             name="gender"
+            select
             onChange={handleChange}
           >
             <MenuItem value={"Male"}>Male</MenuItem>
             <MenuItem value={"Female"}>Female</MenuItem>
             <MenuItem value={"Other"}>Other</MenuItem>
-          </Select>
+          </TextField>
         </FormControl>
-        {/* <TextField
-          type="number"
-          variant="outlined"
-          color="secondary"
-          label="Age"
-          onChange={(e) => setAge(e.target.value)}
-          value={age}
-          required
-          sx={{ m: 1 }}
-        /> */}
 
         <Button
           variant="contained"
@@ -219,10 +268,6 @@ export default function UserData() {
       >
         {submit && <ArrowForwardIosIcon fontSize="large" />}
       </IconButton>
-      {/* <small>
-        Already have an account? <Link to="/login">Login Here</Link>
-      </small> */}
-      {/* </div> */}
     </Styles>
   );
 }
@@ -240,139 +285,5 @@ const Styles = styled.div`
 
   @media screen and (max-width: 980px) {
     height: auto;
-  }
-
-  .sub-title {
-    color: white;
-    text-align: center;
-    font-size: 30px;
-    margin-bottom: 40px;
-  }
-
-  #contact-container {
-    width: 1200px;
-    border-radius: 15px;
-    overflow: hidden;
-    padding: 15px;
-    display: flex;
-    -webkit-backdrop-filter: blur(100px);
-    -moz-backdrop-filter: blur(100px);
-    backdrop-filter: blur(100px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0px 10px 33px 0px rgba(0, 0, 0, 0.75);
-
-    @media screen and (max-width: 1080px) {
-      flex-direction: column;
-      width: 90%;
-      height: auto;
-      margin-bottom: 50px;
-    }
-  }
-
-  #contact-container .contact-info {
-    flex: 0 1 35%;
-    background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
-    border-radius: 15px;
-    padding: 40px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    @media screen and (max-width: 990px) {
-      height: auto;
-    }
-  }
-
-  .contact-info h4 {
-    font-size: 35px;
-    font-weight: 500;
-    margin-top: 0;
-    color: #000;
-    @media screen and (max-width: 990px) {
-      font-size: 25px;
-      margin-top: -30px;
-      text-align: center;
-    }
-  }
-
-  .contact-info p {
-    font-size: 20px;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 300;
-    margin-bottom: 32px;
-    color: #0077;
-    @media screen and (max-width: 990px) {
-      font-size: 15px;
-      text-align: center;
-    }
-  }
-
-  .contact-info .icon-text {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    line-height: 50px;
-    @media screen and (max-width: 990px) {
-      line-height: 20px;
-    }
-  }
-
-  .contact-info .icon-text .fa {
-    font-size: 25px;
-    margin-right: 32px;
-    flex: 0 1 40px;
-    cursor: pointer;
-    @media screen and (max-width: 990px) {
-      font-size: 15px;
-      justify-content: center;
-      margin-left: 30%;
-    }
-  }
-
-  .contact-info .icon-text .fa-phone {
-    color: #f26522;
-  }
-
-  .fa-envelope {
-    color: #ed1811;
-  }
-
-  .fa-map-marker {
-    color: #f3b604;
-  }
-
-  .contact-info .icon-text span {
-    font-size: 13px;
-    font-weight: 300;
-    color: #000;
-    @media screen and (max-width: 990px) {
-      font-size: 10px;
-      word-wrap: wrap;
-    }
-  }
-
-  .contact-info .social-media {
-    display: flex;
-    width: 70%;
-    height: 100%;
-    justify-content: space-between;
-    align-items: flex-end;
-    @media screen and (max-width: 990px) {
-      margin-top: 15px;
-      width: 40%;
-      align-self: center;
-    }
-  }
-
-  .contact-info .social-media .icon-circle {
-    flex: 0 1 20%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    height: 40px;
-    border-radius: 50%;
-    transition: 0.2s all ease-in-out;
-    &:hover {
-      transform: scale(1.5);
-    }
   }
 `;

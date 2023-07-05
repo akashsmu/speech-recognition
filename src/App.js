@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import Choice from "./Choice";
 import Contacts from "./Contacts";
 import AudioPlay from "./AudioUploader";
+import CollapseMenu from "./Permission";
 
 const App = () => {
   let [recordOption, setRecordOption] = useState("video");
@@ -23,7 +24,8 @@ const App = () => {
       </div> */}
       <div>
         <Routes>
-          <Route exact path="/" element={<UserData />} />
+          <Route exact path="/" element={<CollapseMenu />} />
+          <Route path="/user" element={<UserData />} />
           <Route path="/choice" element={<Choice />} />
           <Route path="/upload" element={<AudioPlay />} />
           <Route path="/record" element={<AudioRecorder />} />

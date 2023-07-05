@@ -5,7 +5,7 @@ function DragAndDrop() {
   const [files, setFiles] = React.useState([]);
 
   function fileSizeValidator(file) {
-    if (file.size > 1024 ** 2 * 4) {
+    if (file.size > 1024 ** 2 * 20) {
       return {
         code: "size-too-large",
         message: `File is larger than 2mb`,
