@@ -1,12 +1,12 @@
 import "./App.css";
 import { useState } from "react";
-import AudioRecorder from "../src/AudioRecorder";
-import UserData from "./UserData";
+import AudioRecorder from "./Record/AudioRecorder";
+import UserData from "./UserDetails/UserData";
 import { Route, Routes } from "react-router-dom";
-import Choice from "./Choice";
-import Contacts from "./Contacts";
-import AudioPlay from "./AudioUploader";
-import CollapseMenu from "./Permission";
+import Choice from "./Choose/Choice";
+// import Contacts from "./Contacts";
+import AudioPlay from "./Upload/AudioUploader";
+import CollapseMenu from "./HomePage/Permission";
 
 const App = () => {
   let [recordOption, setRecordOption] = useState("video");
