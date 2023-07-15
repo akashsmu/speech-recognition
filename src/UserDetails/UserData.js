@@ -172,7 +172,7 @@ export default function UserData() {
     setSubmit(true);
     console.log(userDetails);
     try {
-      const data = collection(db, "UserData");
+      const data = collection(db, "users");
       const docRef = await addDoc(data, {
         created: serverTimestamp(),
         userDetails: userDetails,

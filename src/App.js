@@ -7,6 +7,7 @@ import Choice from "./Choose/Choice";
 // import Contacts from "./Contacts";
 import AudioPlay from "./Upload/AudioUploader";
 import CollapseMenu from "./HomePage/Permission";
+import PredictionForm from "./PredictionDemo";
 
 const App = () => {
   let [recordOption, setRecordOption] = useState("video");
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/choice" element={<Choice />} />
           <Route path="/upload" element={<AudioPlay />} />
           <Route path="/record" element={<AudioRecorder />} />
+          <Route path="/predict" element={<PredictionForm />} />
           {/* <Route path="/contact" element={<Contacts />} /> */}
         </Routes>
       </div>
