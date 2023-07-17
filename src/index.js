@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App_Alt from "./App_Alt";
+// import App_Alt from "./App_Alt";
 import App from "./App";
 
 import { BrowserRouter } from "react-router-dom";
